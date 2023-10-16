@@ -3,6 +3,9 @@ package onboarding;
 import java.util.List;
 
 class Problem1 {
+
+    // static 상수들을 정의하기
+    // 예외, 동점, 포비 승리, 크롱 승리, 입력 사이즈
     private final static int EXCEPTION = -1;
     private final static int SAME_SCORE = 0;
     private final static int POBI_WIN = 1;
@@ -12,19 +15,37 @@ class Problem1 {
 
     // 두 명의 플레이어 점수를 비교하여 승자를 리턴하는 메서드
     public static int solution(List<Integer> pobi, List<Integer> crong) {
-        int pobiScore = getMyScore(pobi);
 
         // 포비와 크롱의 각각 입력 리스트를 검증하고 문제가 있는 경우 예외처리
 
+        if (validateLength(pobi) || validateRange(pobi) || validateSequence(pobi) || validateOddOrEven(pobi)) {
+            return EXCEPTION;
+        }
+        if (validateLength(crong) || validateRange(crong) || validateSequence(crong) || validateOddOrEven(crong)) {
+            return EXCEPTION;
+        }
 
         // 포비와 크롱의 총점을 계산
 
+        int pobiScore = getMyScore(pobi);
+        int crongScore = getMyScore(crong);
+
+
         // 승자를 결정하고 최종 승자 정보를 반환
+
+        if (pobiScore > crongScore) {
+            return POBI_WIN;
+        } else if (pobiScore < crongScore) {
+            return CRONG_WIN;
+        } else if (pobiScore == crongScore) {
+            return SAME_SCORE;
+        }
+        return 0;
 
     }
 
 
-    // 주어진 정수형 플레이어 리스트를 총점으로 계산하는 메서드
+    // 주어진 정수형 플레이어 리스트를 총점으로 계산하는 메서드 getMyScore()
     private static int getMyScore(List<Integer> player) {
         int result1 = getMaxScore(addAllNumbers(player.get(0)), multipleAllNumbers(player.get(0)));
         int result2 = getMaxScore(addAllNumbers(player.get(0)), multipleAllNumbers(player.get(0)));
@@ -80,5 +101,15 @@ class Problem1 {
         return input.get(1) - input.get(0) != 1;
     }
 
-    // 이
+    // 입력 리스트의 홀수/짝수를 검증하는 메서드
+    private static boolean validateOddOrEven(List<Integer> input) {
+        if (input.get(0) % 2 != 1) {
+            return true;
+        }
+        if (input.get(1) % 2 != 0) {
+            return true;
+        }
+        return false;
+    }
 }
+
