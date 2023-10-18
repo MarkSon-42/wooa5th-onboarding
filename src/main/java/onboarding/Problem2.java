@@ -2,10 +2,14 @@ package onboarding;
 
 import java.util.Stack;
 public class Problem2 {
+
+    private final static int MIN_RANGE_NUM = 1;
+    private final static int MAX_RANGE_NUM = 1000;
+
     public static String solution(String cryptogram) {
 
-        vaildateRange(cryptogram);
-        vaildateLower(cryptogram);
+        validateLower(cryptogram);
+        validateRange(cryptogram);
 
         // 복호화된 값 String answer에 담기
         String answer = decryptionGame(cryptogram);
@@ -64,5 +68,18 @@ public class Problem2 {
         }
 
         return cryptogram;
+    }
+
+    private static void validateRange(String input) {
+        int inputLength = input.length();
+        if (inputLength < MIN_RANGE_NUM || inputLength > MAX_RANGE_NUM) {
+            throw new IllegalArgumentException("길이 제한 1~1000.");
+        }
+    }
+
+    private static void validateLower(String input) {
+        if (!input.toLowerCase().equals(input)) {
+            throw new IllegalArgumentException("소문자만");
+        }
     }
 }
